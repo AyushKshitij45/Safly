@@ -99,4 +99,10 @@ public class EmargencyResponseActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent= new Intent(EmargencyResponseActivity.this,EmergencyActActivity.class);
+        startActivity(intent);
+    }
+
 }
