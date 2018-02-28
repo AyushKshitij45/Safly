@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -86,6 +87,19 @@ public class LocActivity extends AppCompatActivity {
                         if (task.isSuccessful() && task.getResult() != null) {
                             mLastLocation = task.getResult();
 
+                            Intent intent= new Intent(LocActivity.this,EmargencyResponseActivity.class);
+
+                            String phone = "9807289769";
+                            Uri uri=Uri.parse("Hey, I am in trouble at http://maps.google.com/?q="+Double.toString(mLastLocation.getLatitude())+","+Double.toString(mLastLocation.getLongitude()));
+                            SmsManager smsManager = SmsManager.getDefault();
+                            smsManager.sendTextMessage(phone, null, uri.toString(), null, null);
+                            if (ActivityCompat.checkSelfPermission(LocActivity.this,
+                                    Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                                ActivityCompat.requestPermissions(LocActivity.this, new String[]{Manifest.permission.SEND_SMS}, 1);
+                                return;
+                            }
+
+                            startActivity(intent);
                             mLatitudeText.setText(String.format(Locale.ENGLISH, "%s: %f",
                                     mLatitudeLabel,
                                     mLastLocation.getLatitude()));
@@ -93,6 +107,7 @@ public class LocActivity extends AppCompatActivity {
                                     mLongitudeLabel,
                                     mLastLocation.getLongitude()));
                         } else {
+                            Intent intent= new Intent(LocActivity.this,EmargencyResponseActivity.class);
                             Log.w(TAG, "getLastLocation:exception", task.getException());
                             showSnackbar(getString(R.string.no_location_detected));
                         }
@@ -215,5 +230,7 @@ public class LocActivity extends AppCompatActivity {
             }
         }
     }
+
+
 
 }
