@@ -89,7 +89,7 @@ public class LocActivity extends AppCompatActivity {
 
                             Intent intent= new Intent(LocActivity.this,EmargencyResponseActivity.class);
 
-                            String phone = "9827522617";
+                            String phone = getIntent().getStringExtra("number");
                             Uri uri=Uri.parse("Hey, I am in trouble at http://maps.google.com/?q="+Double.toString(mLastLocation.getLatitude())+","+Double.toString(mLastLocation.getLongitude()));
                             SmsManager smsManager = SmsManager.getDefault();
                             smsManager.sendTextMessage(phone, null, uri.toString(), null, null);
@@ -107,10 +107,10 @@ public class LocActivity extends AppCompatActivity {
                                     mLongitudeLabel,
                                     mLastLocation.getLongitude()));
                         } else {
-                            Intent intent= new Intent(LocActivity.this,EmargencyResponseActivity.class);
-                            startActivity(intent);
                             Log.w(TAG, "getLastLocation:exception", task.getException());
                             showSnackbar(getString(R.string.no_location_detected));
+                            Intent intent= new Intent(LocActivity.this,EmargencyResponseActivity.class);
+                            startActivity(intent);
                         }
                     }
                 });
@@ -236,6 +236,7 @@ public class LocActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent= new Intent(LocActivity.this,EmergencyActActivity.class);
+
         startActivity(intent);
     }
 

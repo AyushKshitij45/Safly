@@ -21,6 +21,7 @@ public class SignUpActivity extends AppCompatActivity {
     private static final String TAG = SignUpActivity.class.getSimpleName();
     private static final int REQUEST_CODE_PICK_CONTACTS = 4;
     public String contactID;     // contacts unique ID
+    public String number;
     EditText username;
     EditText email;
 Spinner dropdown;
@@ -123,6 +124,7 @@ Spinner dropdown;
             Button button = (Button)findViewById(R.id.button);
             button.setText(contactNumber);
 
+number=contactNumber;
         }
 
         private void retrieveContactName() {
@@ -154,7 +156,7 @@ Spinner dropdown;
                     intent.putExtra("email", email.getText().toString());
                     intent.putExtra("blood", dropdown.getSelectedItem().toString());
                     intent.putExtra("sex", sex.getSelectedItem().toString());
-                    intent.putExtra("number", contactID);
+                    intent.putExtra("number", number);
 
                     startActivity(intent);
                 }
